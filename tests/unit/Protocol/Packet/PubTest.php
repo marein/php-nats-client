@@ -11,7 +11,6 @@ class PubTest extends TestCase
     /**
      * @test
      * @dataProvider packetProvider
-     *
      */
     public function itShouldBePacked(Pub $pub, string $packed): void
     {

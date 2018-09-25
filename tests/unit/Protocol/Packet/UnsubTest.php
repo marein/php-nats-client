@@ -12,7 +12,6 @@ class UnsubTest extends TestCase
     /**
      * @test
      * @dataProvider packetProvider
-     *
      */
     public function itShouldBePacked(Unsub $unsub, string $packed): void
     {
@@ -22,7 +21,7 @@ class UnsubTest extends TestCase
     /**
      * @test
      */
-    public function maximumNumberOfMessageShouldBeGreateThanNull(): void
+    public function maximumNumberOfMessagesShouldBeGreaterThanNull(): void
     {
         $this->expectException(InvalidPacketException::class);
 

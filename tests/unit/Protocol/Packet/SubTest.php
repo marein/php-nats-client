@@ -12,7 +12,6 @@ class SubTest extends TestCase
     /**
      * @test
      * @dataProvider packetProvider
-     *
      */
     public function itShouldBePacked(Sub $sub, string $packed): void
     {
