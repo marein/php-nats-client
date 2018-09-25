@@ -1,17 +1,17 @@
 <?php
 declare(strict_types=1);
 
-namespace Marein\Nats\Protocol\Packet\Client;
+namespace Marein\Nats\Protocol\Packet\Server;
 
 use Marein\Nats\Protocol\Packet\Packet;
 
-final class Pong implements Packet
+final class Ping implements Packet
 {
     /**
      * @inheritdoc
      */
     public function pack(): string
     {
-        return 'PONG' . Packet::MESSAGE_TERMINATOR;
+        return 'PING' . Packet::MESSAGE_TERMINATOR;
     }
 }

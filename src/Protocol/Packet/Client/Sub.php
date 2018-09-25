@@ -5,6 +5,7 @@ namespace Marein\Nats\Protocol\Packet\Client;
 
 use Marein\Nats\Protocol\Model\Subject;
 use Marein\Nats\Protocol\Model\SubscriptionId;
+use Marein\Nats\Protocol\Packet\Packet;
 
 final class Sub implements Packet
 {
