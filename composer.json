@@ -1,0 +1,25 @@
+{
+  "name": "marein/php-nats-client",
+  "description": "A PHP https://nats.io client.",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Markus Reinhold",
+      "email": "markusreinhold@icloud.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Marein\\Nats\\": "src/"
+    }
+  },
+  "require": {
+    "php": ">=7.2"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^7.3",
+    "php-coveralls/php-coveralls": "^2.1",
+    "squizlabs/php_codesniffer": "^3.3",
+    "phpstan/phpstan": "^0.10.3"
+  }
+}
