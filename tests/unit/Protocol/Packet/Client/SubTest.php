@@ -11,29 +11,38 @@ class SubTest extends TestCase
 {
     /**
      * @test
-     * @dataProvider packetProvider
      */
-    public function itShouldBePacked(Sub $sub, string $packed): void
-    {
-        $this->assertSame($packed, $sub->pack());
-    }
-
-    /**
-     * @return array
-     */
-    public function packetProvider(): array
+    public function itShouldBePacked(): void
     {
         $subscriptionId = SubscriptionId::random();
 
-        return [
-            [
-                (new Sub(new Subject('subject'), $subscriptionId)),
-                'SUB subject ' . (string)$subscriptionId . "\r\n"
-            ],
-            [
-                (new Sub(new Subject('subject'), $subscriptionId))->withQueueGroup('queueGroup'),
-                'SUB subject queueGroup ' . (string)$subscriptionId . "\r\n"
-            ]
-        ];
+        $sub = new Sub(
+            new Subject('subject'),
+            $subscriptionId
+        );
+
+        $this->assertSame(
+            'SUB subject ' . (string)$subscriptionId . "\r\n",
+            $sub->pack()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldBePackedWithQueueGroup(): void
+    {
+        $subscriptionId = SubscriptionId::random();
+
+        $sub = new Sub(
+            new Subject('subject'),
+            $subscriptionId
+        );
+        $sub->withQueueGroup('queueGroup');
+
+        $this->assertSame(
+            'SUB subject queueGroup ' . (string)$subscriptionId . "\r\n",
+            $sub->pack()
+        );
     }
 }

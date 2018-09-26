@@ -12,6 +12,11 @@ class PingTest extends TestCase
      */
     public function itShouldBePacked(): void
     {
-        $this->assertSame("PING\r\n", (new Ping)->pack());
+        $ping = new Ping();
+
+        $this->assertSame(
+            "PING\r\n",
+            $ping->pack()
+        );
     }
 }

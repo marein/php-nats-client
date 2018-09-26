@@ -11,11 +11,37 @@ class UnsubTest extends TestCase
 {
     /**
      * @test
-     * @dataProvider packetProvider
      */
-    public function itShouldBePacked(Unsub $unsub, string $packed): void
+    public function itShouldBePacked(): void
     {
-        $this->assertSame($packed, $unsub->pack());
+        $subscriptionId = SubscriptionId::random();
+
+        $unsub = new Unsub(
+            $subscriptionId
+        );
+
+        $this->assertSame(
+            'UNSUB ' . (string)$subscriptionId . "\r\n",
+            $unsub->pack()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldBePackedWithMaximumNumberOfMessages(): void
+    {
+        $subscriptionId = SubscriptionId::random();
+
+        $unsub = new Unsub(
+            $subscriptionId
+        );
+        $unsub->withMaximumNumberOfMessages(3);
+
+        $this->assertSame(
+            'UNSUB ' . (string)$subscriptionId . " 3\r\n",
+            $unsub->pack()
+        );
     }
 
     /**
@@ -25,25 +51,9 @@ class UnsubTest extends TestCase
     {
         $this->expectException(InvalidPacketException::class);
 
-        (new Unsub(SubscriptionId::random()))->withMaximumNumberOfMessages(0);
-    }
-
-    /**
-     * @return array
-     */
-    public function packetProvider(): array
-    {
-        $subscriptionId = SubscriptionId::random();
-
-        return [
-            [
-                (new Unsub($subscriptionId)),
-                'UNSUB ' . (string)$subscriptionId . "\r\n"
-            ],
-            [
-                (new Unsub($subscriptionId))->withMaximumNumberOfMessages(3),
-                'UNSUB ' . (string)$subscriptionId . " 3\r\n"
-            ]
-        ];
+        $unsub = new Unsub(
+            SubscriptionId::random()
+        );
+        $unsub->withMaximumNumberOfMessages(0);
     }
 }

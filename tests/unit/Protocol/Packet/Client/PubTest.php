@@ -10,27 +10,34 @@ class PubTest extends TestCase
 {
     /**
      * @test
-     * @dataProvider packetProvider
      */
-    public function itShouldBePacked(Pub $pub, string $packed): void
+    public function itShouldBePacked(): void
     {
-        $this->assertSame($packed, $pub->pack());
+        $pub = new Pub(
+            new Subject('subject'),
+            'payload'
+        );
+
+        $this->assertSame(
+            "PUB subject 7\r\npayload\r\n",
+            $pub->pack()
+        );
     }
 
     /**
-     * @return array
+     * @test
      */
-    public function packetProvider(): array
+    public function itShouldBePackedWithReplyTo(): void
     {
-        return [
-            [
-                (new Pub(new Subject('subject'), 'payload')),
-                "PUB subject 7\r\npayload\r\n"
-            ],
-            [
-                (new Pub(new Subject('subject'), 'payload'))->withReplyTo(new Subject('reply')),
-                "PUB subject reply 7\r\npayload\r\n"
-            ]
-        ];
+        $pub = new Pub(
+            new Subject('subject'),
+            'payload'
+        );
+        $pub->withReplyTo(new Subject('reply'));
+
+        $this->assertSame(
+            "PUB subject reply 7\r\npayload\r\n",
+            $pub->pack()
+        );
     }
 }

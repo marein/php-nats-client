@@ -12,6 +12,11 @@ class OkTest extends TestCase
      */
     public function itShouldBePacked(): void
     {
-        $this->assertSame("+OK\r\n", (new Ok())->pack());
+        $ok = new Ok();
+
+        $this->assertSame(
+            "+OK\r\n",
+            $ok->pack()
+        );
     }
 }

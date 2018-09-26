@@ -12,6 +12,11 @@ class PongTest extends TestCase
      */
     public function itShouldBePacked(): void
     {
-        $this->assertSame("PONG\r\n", (new Pong)->pack());
+        $pong = new Pong();
+
+        $this->assertSame(
+            "PONG\r\n",
+            $pong->pack()
+        );
     }
 }
