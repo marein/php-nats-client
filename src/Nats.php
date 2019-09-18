@@ -3,8 +3,11 @@ declare(strict_types=1);
 
 namespace Marein\Nats;
 
-use Marein\Nats\Connection\Connection;
+use Marein\Nats\Connection\ConnectionFactory;
+use Marein\Nats\Connection\PacketConnection;
 use Marein\Nats\Connection\Socket;
+use Marein\Nats\Exception\ConnectionLostException;
+use Marein\Nats\Exception\NatsException;
 use Marein\Nats\Exception\SocketException;
 use Marein\Nats\Protocol\Model\Subject;
 use Marein\Nats\Protocol\Packet\Client\Pub;
@@ -12,18 +15,25 @@ use Marein\Nats\Protocol\Packet\Client\Pub;
 final class Nats
 {
     /**
-     * @var Connection
+     * @var Socket
      */
-    private $connection;
+    private $socket;
+
+    /**
+     * @var ConnectionFactory
+     */
+    private $connectionFactory;
 
     /**
      * Nats constructor.
      *
-     * @param Socket $socket
+     * @param Socket            $socket
+     * @param ConnectionFactory $connectionFactory
      */
-    public function __construct(Socket $socket)
+    public function __construct(Socket $socket, ConnectionFactory $connectionFactory)
     {
-        $this->connection = new Connection($socket);
+        $this->socket = $socket;
+        $this->connectionFactory = $connectionFactory;
     }
 
     /**
@@ -32,11 +42,14 @@ final class Nats
      * @param string $subject
      * @param string $payload
      *
-     * @throws SocketException
+     * @throws ConnectionLostException
      */
     public function publish(string $subject, string $payload): void
     {
-        $this->connection->sendPacket(
+        $connection = $this->connectionFactory->establish($this->socket);
+        $packetConnection = new PacketConnection($connection);
+
+        $packetConnection->sendPacket(
             new Pub(
                 new Subject($subject),
                 $payload
