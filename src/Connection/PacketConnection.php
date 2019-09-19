@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace Marein\Nats\Connection;
 
 use Marein\Nats\Exception\ConnectionLostException;
-use Marein\Nats\Protocol\Packet\Packet;
+use Marein\Nats\Protocol\Packet\Client\Packet;
 
 final class PacketConnection
 {

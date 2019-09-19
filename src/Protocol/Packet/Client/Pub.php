@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Marein\Nats\Protocol\Packet\Client;
 
 use Marein\Nats\Protocol\Model\Subject;
-use Marein\Nats\Protocol\Packet\Packet;
 
 final class Pub implements Packet
 {

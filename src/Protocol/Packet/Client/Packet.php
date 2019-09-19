@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Marein\Nats\Protocol\Packet;
+namespace Marein\Nats\Protocol\Packet\Client;
 
 interface Packet
 {
