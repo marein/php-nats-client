@@ -40,7 +40,7 @@ final class Unsub implements Packet
     {
         if ($maximumNumberOfMessages <= 0) {
             throw new InvalidPacketException(
-                'Maximum number of messages must be greate than 0.'
+                'Maximum number of messages must be greater than 0.'
             );
         }
 
