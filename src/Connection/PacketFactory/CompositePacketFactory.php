@@ -19,6 +19,7 @@ final class CompositePacketFactory implements PacketFactory
     public function __construct()
     {
         $this->packetFactories = [
+            new OkPacketFactory(),
             new InfoPacketFactory()
         ];
     }

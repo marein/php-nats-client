@@ -47,5 +47,8 @@ final class Nats
                 $payload
             )
         );
+
+        // todo: https://github.com/marein/php-nats-client/issues/3
+        $this->packetConnections->forPublishing()->receivePacket();
     }
 }

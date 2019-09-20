@@ -29,9 +29,9 @@ class NatsTest extends TestCase
             ->method('send')
             ->with("PUB subject 7\r\npayload\r\n");
         $connection
-            ->expects($this->once())
+            ->expects($this->exactly(2))
             ->method('receive')
-            ->willReturn('INFO ' . json_encode($infoPacketInformation) . "\r\n");
+            ->willReturnOnConsecutiveCalls('INFO ' . json_encode($infoPacketInformation) . "\r\n", "+OK\r\n");
 
         $connectionFactory = $this->createMock(ConnectionFactory::class);
         $connectionFactory
