@@ -16,12 +16,22 @@ class NatsTest extends TestCase
     public function itShouldPublishThePayloadOnTheGivenSubject(): void
     {
         $socket = new Socket('127.0.0.1', 4222);
+        $infoPacketInformation = [
+            'server_id' => 'test',
+            'max_payload' => 1233,
+            'proto' => 1,
+            'version' => '2.0.4'
+        ];
 
         $connection = $this->createMock(Connection::class);
         $connection
             ->expects($this->once())
             ->method('send')
             ->with("PUB subject 7\r\npayload\r\n");
+        $connection
+            ->expects($this->once())
+            ->method('receive')
+            ->willReturn('INFO ' . json_encode($infoPacketInformation) . "\r\n");
 
         $connectionFactory = $this->createMock(ConnectionFactory::class);
         $connectionFactory

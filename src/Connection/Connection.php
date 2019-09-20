@@ -15,4 +15,12 @@ interface Connection
      * @throws ConnectionLostException
      */
     public function send(string $data): void;
+
+    /**
+     * Receive data from the wire.
+     *
+     * @return string
+     * @throws ConnectionLostException
+     */
+    public function receive(): string;
 }
