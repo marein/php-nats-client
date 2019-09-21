@@ -1,10 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Marein\Nats\Protocol\Packet\Client;
+namespace Marein\Nats\Tests\Unit\Protocol\Packet\Client;
 
 use Marein\Nats\Exception\InvalidPacketException;
 use Marein\Nats\Protocol\Model\SubscriptionId;
+use Marein\Nats\Protocol\Packet\Client\Unsub;
 use PHPUnit\Framework\TestCase;
 
 class UnsubTest extends TestCase

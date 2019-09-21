@@ -1,10 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace Marein\Nats\Protocol\Packet\Client;
+namespace Marein\Nats\Tests\Unit\Protocol\Packet\Client;
 
 use Marein\Nats\Protocol\Model\Subject;
 use Marein\Nats\Protocol\Model\SubscriptionId;
+use Marein\Nats\Protocol\Packet\Client\Sub;
 use PHPUnit\Framework\TestCase;
 
 class SubTest extends TestCase

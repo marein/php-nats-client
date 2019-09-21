@@ -1,11 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace Marein\Nats;
+namespace Marein\Nats\Tests\Unit;
 
 use Marein\Nats\Connection\Connection;
 use Marein\Nats\Connection\ConnectionFactory;
 use Marein\Nats\Connection\Socket;
+use Marein\Nats\Nats;
 use PHPUnit\Framework\TestCase;
 
 class NatsTest extends TestCase

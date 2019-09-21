@@ -1,9 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace Marein\Nats\Protocol\Packet\Client;
+namespace Marein\Nats\Tests\Unit\Protocol\Packet\Client;
 
 use Marein\Nats\Protocol\Model\Subject;
+use Marein\Nats\Protocol\Packet\Client\Pub;
 use PHPUnit\Framework\TestCase;
 
 class PubTest extends TestCase
