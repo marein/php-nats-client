@@ -19,9 +19,7 @@ final class OkPacketFactory implements PacketFactory
         }
 
         return new Result(
-            $buffer->removeUpToPosition(
-                $buffer->readUntilAfterNextOccurrence(Packet::MESSAGE_TERMINATOR)->length()
-            ),
+            $buffer->removeUpToPosition(5),
             new Ok()
         );
     }
