@@ -59,20 +59,24 @@ final class PacketConnection
      */
     public function receivePacket(): ServerPacket
     {
-        while (true) {
+        // First try to create a packet from the remaining buffer.
+        $result = $this->packetFactory->tryToCreateFromBuffer($this->buffer);
+
+        if ($result->packet() !== null) {
+            $this->buffer = $result->remainingBuffer();
+
+            return $result->packet();
+        }
+
+        // Then try to build until there is a next packet.
+        do {
             $this->buffer = $this->buffer->append($this->connection->receive());
 
-            if ($this->buffer->isEmpty()) {
-                usleep(10);
-                continue;
-            }
-
             $result = $this->packetFactory->tryToCreateFromBuffer($this->buffer);
+        } while ($result->packet() === null);
 
-            if ($result->packet() !== null) {
-                $this->buffer = $result->remainingBuffer();
-                return $result->packet();
-            }
-        }
+        $this->buffer = $result->remainingBuffer();
+
+        return $result->packet();
     }
 }
