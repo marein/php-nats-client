@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Marein\Nats\Tests\Unit;
 
+use Marein\Nats\Clock\SystemClock;
 use Marein\Nats\Connection\Connection;
 use Marein\Nats\Connection\ConnectionFactory;
 use Marein\Nats\Connection\Socket;
@@ -45,6 +46,7 @@ class NatsTest extends TestCase
         $nats = new Nats(
             $socket,
             Timeout::fromSeconds(10),
+            new SystemClock(),
             $connectionFactory
         );
 

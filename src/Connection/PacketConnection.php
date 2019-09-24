@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Marein\Nats\Connection;
 
+use Marein\Nats\Clock\Clock;
 use Marein\Nats\Connection\PacketFactory\PacketFactory;
 use Marein\Nats\Exception\ConnectionLostException;
 use Marein\Nats\Exception\TimeoutExpiredException;
@@ -23,6 +24,11 @@ final class PacketConnection
     private $packetFactory;
 
     /**
+     * @var Clock
+     */
+    private $clock;
+
+    /**
      * @var Buffer
      */
     private $buffer;
@@ -30,13 +36,15 @@ final class PacketConnection
     /**
      * PacketConnection constructor.
      *
-     * @param Connection $connection
+     * @param Connection    $connection
      * @param PacketFactory $packetFactory
+     * @param Clock         $clock
      */
-    public function __construct(Connection $connection, PacketFactory $packetFactory)
+    public function __construct(Connection $connection, PacketFactory $packetFactory, Clock $clock)
     {
         $this->connection = $connection;
         $this->packetFactory = $packetFactory;
+        $this->clock = $clock;
         $this->buffer = Buffer::emptyBuffer();
     }
 
@@ -72,13 +80,13 @@ final class PacketConnection
             return $result->packet();
         }
 
-        $lastTimestamp = time();
+        $lastTimestamp = $this->clock->timestamp();
 
         // Then try to build until there is a next packet.
         do {
-            $timeout = $timeout->subtract(time() - $lastTimestamp);
-
-            $lastTimestamp = time();
+            $currentTimestamp = $this->clock->timestamp();
+            $timeout = $timeout->subtract($currentTimestamp - $lastTimestamp);
+            $lastTimestamp = $currentTimestamp;
 
             $this->buffer = $this->buffer->append(
                 $this->connection->receive(

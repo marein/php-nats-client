@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Marein\Nats;
 
+use Marein\Nats\Clock\Clock;
 use Marein\Nats\Connection\ConnectionFactory;
 use Marein\Nats\Connection\PacketConnections;
 use Marein\Nats\Connection\Socket;
@@ -29,17 +30,20 @@ final class Nats
      *
      * @param Socket            $socket
      * @param Timeout           $timeout
+     * @param Clock             $clock
      * @param ConnectionFactory $connectionFactory
      */
     public function __construct(
         Socket $socket,
         Timeout $timeout,
+        Clock $clock,
         ConnectionFactory $connectionFactory
     ) {
         $this->timeout = $timeout;
         $this->packetConnections = new PacketConnections(
             $socket,
             $timeout,
+            $clock,
             $connectionFactory
         );
     }
