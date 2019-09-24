@@ -19,8 +19,10 @@ interface Connection
     /**
      * Receive data from the wire.
      *
+     * @param Timeout $timeout
+     *
      * @return string
      * @throws ConnectionLostException
      */
-    public function receive(): string;
+    public function receive(Timeout $timeout): string;
 }

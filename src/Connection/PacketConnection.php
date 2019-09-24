@@ -5,6 +5,7 @@ namespace Marein\Nats\Connection;
 
 use Marein\Nats\Connection\PacketFactory\PacketFactory;
 use Marein\Nats\Exception\ConnectionLostException;
+use Marein\Nats\Exception\TimeoutExpiredException;
 use Marein\Nats\Protocol\Packet\Client\Packet as ClientPacket;
 use Marein\Nats\Protocol\Packet\Server\Packet as ServerPacket;
 use Marein\Nats\Connection\PacketFactory\CompositePacketFactory;
@@ -54,10 +55,13 @@ final class PacketConnection
     /**
      * Receive a packet.
      *
+     * @param Timeout $timeout
+     *
      * @return ServerPacket
      * @throws ConnectionLostException
+     * @throws TimeoutExpiredException
      */
-    public function receivePacket(): ServerPacket
+    public function receivePacket(Timeout $timeout): ServerPacket
     {
         // First try to create a packet from the remaining buffer.
         $result = $this->packetFactory->tryToCreateFromBuffer($this->buffer);
@@ -68,9 +72,19 @@ final class PacketConnection
             return $result->packet();
         }
 
+        $lastTimestamp = time();
+
         // Then try to build until there is a next packet.
         do {
-            $this->buffer = $this->buffer->append($this->connection->receive());
+            $timeout = $timeout->subtract(time() - $lastTimestamp);
+
+            $lastTimestamp = time();
+
+            $this->buffer = $this->buffer->append(
+                $this->connection->receive(
+                    $timeout
+                )
+            );
 
             $result = $this->packetFactory->tryToCreateFromBuffer($this->buffer);
         } while ($result->packet() === null);

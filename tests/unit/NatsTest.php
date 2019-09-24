@@ -6,6 +6,7 @@ namespace Marein\Nats\Tests\Unit;
 use Marein\Nats\Connection\Connection;
 use Marein\Nats\Connection\ConnectionFactory;
 use Marein\Nats\Connection\Socket;
+use Marein\Nats\Connection\Timeout;
 use Marein\Nats\Nats;
 use PHPUnit\Framework\TestCase;
 
@@ -43,6 +44,7 @@ class NatsTest extends TestCase
 
         $nats = new Nats(
             $socket,
+            Timeout::fromSeconds(10),
             $connectionFactory
         );
 

@@ -5,6 +5,7 @@ namespace Marein\Nats\Connection;
 
 use Marein\Nats\Connection\PacketFactory\CompositePacketFactory;
 use Marein\Nats\Exception\ConnectionLostException;
+use Marein\Nats\Exception\TimeoutExpiredException;
 
 final class PacketConnections
 {
@@ -12,6 +13,11 @@ final class PacketConnections
      * @var Socket
      */
     private $socket;
+
+    /**
+     * @var Timeout
+     */
+    private $timeout;
 
     /**
      * @var ConnectionFactory
@@ -27,11 +33,16 @@ final class PacketConnections
      * PacketConnections constructor.
      *
      * @param Socket            $socket
+     * @param Timeout           $timeout
      * @param ConnectionFactory $connectionFactory
      */
-    public function __construct(Socket $socket, ConnectionFactory $connectionFactory)
-    {
+    public function __construct(
+        Socket $socket,
+        Timeout $timeout,
+        ConnectionFactory $connectionFactory
+    ) {
         $this->socket = $socket;
+        $this->timeout = $timeout;
         $this->connectionFactory = $connectionFactory;
     }
 
@@ -40,6 +51,7 @@ final class PacketConnections
      *
      * @return PacketConnection
      * @throws ConnectionLostException
+     * @throws TimeoutExpiredException
      */
     public function forPublishing(): PacketConnection
     {
@@ -49,7 +61,7 @@ final class PacketConnections
                 new CompositePacketFactory()
             );
             // Receive the info packet.
-            $this->forPublishing->receivePacket();
+            $this->forPublishing->receivePacket($this->timeout);
         }
 
         return $this->forPublishing;
