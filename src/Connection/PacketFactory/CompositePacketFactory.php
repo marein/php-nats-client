@@ -20,6 +20,7 @@ final class CompositePacketFactory implements PacketFactory
     {
         $this->packetFactories = [
             new OkPacketFactory(),
+            new ErrPacketFactory(),
             new InfoPacketFactory()
         ];
     }
