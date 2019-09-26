@@ -42,21 +42,42 @@ final class Info implements Packet
     }
 
     /**
-     * Creates an Info object from string.
+     * Returns the unique identifier of the nats server.
      *
-     * @param string $value
-     *
-     * @return Info
+     * @return string
      */
-    public static function fromJson(string $value): Info
+    public function serverId(): string
     {
-        $information = json_decode(substr($value, 5), true);
+        return $this->serverId;
+    }
 
-        return new Info(
-            $information['server_id'],
-            $information['version'],
-            (int)$information['proto'],
-            (int)$information['max_payload']
-        );
+    /**
+     * Returns the version of the nats server.
+     *
+     * @return string
+     */
+    public function version(): string
+    {
+        return $this->version;
+    }
+
+    /**
+     * Returns the protocol version of the nats server.
+     *
+     * @return int
+     */
+    public function protocol(): int
+    {
+        return $this->protocol;
+    }
+
+    /**
+     * Returns the payload limit that the nats server will accept.
+     *
+     * @return int
+     */
+    public function payloadLimit(): int
+    {
+        return $this->payloadLimit;
     }
 }

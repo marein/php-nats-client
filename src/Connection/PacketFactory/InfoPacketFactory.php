@@ -22,11 +22,22 @@ final class InfoPacketFactory implements PacketFactory
 
         $infoBuffer = $buffer->readUntilAfterNextOccurrence(Packet::MESSAGE_TERMINATOR);
 
-        $packet = Info::fromJson($infoBuffer->value());
+        $information = json_decode(
+            $infoBuffer
+                ->readUpToPosition($infoBuffer->length() - 2)
+                ->removeUpToPosition(5)
+                ->value(),
+            true
+        );
 
         return new Result(
             $buffer->removeUpToPosition($infoBuffer->length()),
-            $packet
+            new Info(
+                $information['server_id'],
+                $information['version'],
+                (int)$information['proto'],
+                (int)$information['max_payload']
+            )
         );
     }
 }
