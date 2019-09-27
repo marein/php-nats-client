@@ -121,16 +121,6 @@ final class Buffer
     }
 
     /**
-     * Returns true if the buffer is empty.
-     *
-     * @return bool
-     */
-    public function isEmpty(): bool
-    {
-        return $this->value === '';
-    }
-
-    /**
      * Returns the value.
      *
      * @return string
