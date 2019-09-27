@@ -11,6 +11,18 @@ class SubscriptionIdTest extends TestCase
     /**
      * @test
      */
+    public function itShouldBeCreatedWithItsValues(): void
+    {
+        $expectedValue = 'value';
+
+        $subscriptionId = new SubscriptionId('value');
+
+        $this->assertSame($expectedValue, (string)$subscriptionId);
+    }
+
+    /**
+     * @test
+     */
     public function itShouldBeCreatedRandomly(): void
     {
         $subscriptionIdOne = SubscriptionId::random();
