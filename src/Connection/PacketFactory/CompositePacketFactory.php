@@ -9,7 +9,11 @@ use Marein\Nats\Protocol\Packet\Server\Packet;
 final class CompositePacketFactory implements PacketFactory
 {
     /**
-     * @var PacketFactory[]
+     * This is an assignment of the first three characters of a packet to the packet factory.
+     * The first three are used because they distinguish all packets. This may change in the future.
+     * This is for the faster search for the right packet factory.
+     *
+     * @var array<string, PacketFactory>
      */
     private $packetFactories;
 
@@ -19,12 +23,12 @@ final class CompositePacketFactory implements PacketFactory
     public function __construct()
     {
         $this->packetFactories = [
-            new MsgPacketFactory(),
-            new OkPacketFactory(),
-            new PingPacketFactory(),
-            new PongPacketFactory(),
-            new ErrPacketFactory(),
-            new InfoPacketFactory()
+            '-ER' => new ErrPacketFactory(),
+            'INF' => new InfoPacketFactory(),
+            'MSG' => new MsgPacketFactory(),
+            '+OK' => new OkPacketFactory(),
+            'PIN' => new PingPacketFactory(),
+            'PON' => new PongPacketFactory()
         ];
     }
 
@@ -33,14 +37,12 @@ final class CompositePacketFactory implements PacketFactory
      */
     public function tryToCreateFromBuffer(Buffer $buffer): Result
     {
-        foreach ($this->packetFactories as $packetFactory) {
-            $result = $packetFactory->tryToCreateFromBuffer($buffer);
+        $packetFactoryKey = substr($buffer->value(), 0, 3);
 
-            if ($result->packet() !== null) {
-                return $result;
-            }
+        if (!array_key_exists($packetFactoryKey, $this->packetFactories)) {
+            return new Result($buffer, null);
         }
 
-        return new Result($buffer, null);
+        return $this->packetFactories[$packetFactoryKey]->tryToCreateFromBuffer($buffer);
     }
 }
