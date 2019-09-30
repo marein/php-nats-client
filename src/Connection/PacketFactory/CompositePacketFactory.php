@@ -21,6 +21,8 @@ final class CompositePacketFactory implements PacketFactory
         $this->packetFactories = [
             new MsgPacketFactory(),
             new OkPacketFactory(),
+            new PingPacketFactory(),
+            new PongPacketFactory(),
             new ErrPacketFactory(),
             new InfoPacketFactory()
         ];
