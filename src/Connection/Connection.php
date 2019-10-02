@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Marein\Nats\Connection;
 
-use Marein\Nats\Exception\ConnectionLostException;
+use Marein\Nats\Exception\ConnectionException;
 
 interface Connection
 {
@@ -12,7 +12,7 @@ interface Connection
      *
      * @param string $data
      *
-     * @throws ConnectionLostException
+     * @throws ConnectionException
      */
     public function send(string $data): void;
 
@@ -22,7 +22,7 @@ interface Connection
      * @param Timeout $timeout
      *
      * @return string
-     * @throws ConnectionLostException
+     * @throws ConnectionException
      */
     public function receive(Timeout $timeout): string;
 }

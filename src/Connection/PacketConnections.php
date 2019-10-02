@@ -5,7 +5,7 @@ namespace Marein\Nats\Connection;
 
 use Marein\Nats\Clock\Clock;
 use Marein\Nats\Connection\PacketFactory\CompositePacketFactory;
-use Marein\Nats\Exception\ConnectionLostException;
+use Marein\Nats\Exception\ConnectionException;
 use Marein\Nats\Exception\TimeoutExpiredException;
 
 final class PacketConnections
@@ -59,7 +59,7 @@ final class PacketConnections
      * Returns a connection for publishing purposes.
      *
      * @return PacketConnection
-     * @throws ConnectionLostException
+     * @throws ConnectionException
      * @throws TimeoutExpiredException
      */
     public function forPublishing(): PacketConnection

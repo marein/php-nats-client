@@ -5,11 +5,10 @@ namespace Marein\Nats\Connection;
 
 use Marein\Nats\Clock\Clock;
 use Marein\Nats\Connection\PacketFactory\PacketFactory;
-use Marein\Nats\Exception\ConnectionLostException;
+use Marein\Nats\Exception\ConnectionException;
 use Marein\Nats\Exception\TimeoutExpiredException;
 use Marein\Nats\Protocol\Packet\Client\Packet as ClientPacket;
 use Marein\Nats\Protocol\Packet\Server\Packet as ServerPacket;
-use Marein\Nats\Connection\PacketFactory\CompositePacketFactory;
 
 final class PacketConnection
 {
@@ -53,7 +52,7 @@ final class PacketConnection
      *
      * @param ClientPacket $packet
      *
-     * @throws ConnectionLostException
+     * @throws ConnectionException
      */
     public function sendPacket(ClientPacket $packet): void
     {
@@ -66,7 +65,7 @@ final class PacketConnection
      * @param Timeout $timeout
      *
      * @return ServerPacket
-     * @throws ConnectionLostException
+     * @throws ConnectionException
      * @throws TimeoutExpiredException
      */
     public function receivePacket(Timeout $timeout): ServerPacket

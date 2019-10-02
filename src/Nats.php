@@ -8,7 +8,7 @@ use Marein\Nats\Connection\ConnectionFactory;
 use Marein\Nats\Connection\PacketConnections;
 use Marein\Nats\Connection\Socket;
 use Marein\Nats\Connection\Timeout;
-use Marein\Nats\Exception\ConnectionLostException;
+use Marein\Nats\Exception\ConnectionException;
 use Marein\Nats\Exception\TimeoutExpiredException;
 use Marein\Nats\Protocol\Model\Subject;
 use Marein\Nats\Protocol\Packet\Client\Pub;
@@ -54,7 +54,7 @@ final class Nats
      * @param string $subject
      * @param string $payload
      *
-     * @throws ConnectionLostException
+     * @throws ConnectionException
      * @throws TimeoutExpiredException
      */
     public function publish(string $subject, string $payload): void
