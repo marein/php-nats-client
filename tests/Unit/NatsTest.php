@@ -6,7 +6,7 @@ namespace Marein\Nats\Tests\Unit;
 use Marein\Nats\Clock\SystemClock;
 use Marein\Nats\Connection\Connection;
 use Marein\Nats\Connection\ConnectionFactory;
-use Marein\Nats\Connection\Socket;
+use Marein\Nats\Connection\Endpoint;
 use Marein\Nats\Connection\Timeout;
 use Marein\Nats\Nats;
 use PHPUnit\Framework\TestCase;
@@ -18,7 +18,7 @@ class NatsTest extends TestCase
      */
     public function itShouldPublishThePayloadOnTheGivenSubject(): void
     {
-        $socket = new Socket('127.0.0.1', 4222);
+        $endpoint = new Endpoint('127.0.0.1', 4222);
         $infoPacketInformation = [
             'server_id' => 'test',
             'max_payload' => 1233,
@@ -40,11 +40,11 @@ class NatsTest extends TestCase
         $connectionFactory
             ->expects($this->once())
             ->method('establish')
-            ->with($socket)
+            ->with($endpoint)
             ->willReturn($connection);
 
         $nats = new Nats(
-            $socket,
+            $endpoint,
             Timeout::fromSeconds(10),
             new SystemClock(),
             $connectionFactory

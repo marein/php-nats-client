@@ -8,7 +8,6 @@ use Marein\Nats\Clock\SystemClock;
 use Marein\Nats\Connection\Connection;
 use Marein\Nats\Connection\PacketConnection;
 use Marein\Nats\Connection\PacketFactory\CompositePacketFactory;
-use Marein\Nats\Connection\Socket;
 use Marein\Nats\Connection\Timeout;
 use Marein\Nats\Exception\TimeoutExpiredException;
 use Marein\Nats\Protocol\Packet\Client\Packet;

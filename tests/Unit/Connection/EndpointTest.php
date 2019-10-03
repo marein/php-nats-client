@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace Marein\Nats\Tests\Unit\Connection;
 
-use Marein\Nats\Connection\Socket;
+use Marein\Nats\Connection\Endpoint;
 use PHPUnit\Framework\TestCase;
 
-class SocketTest extends TestCase
+class EndpointTest extends TestCase
 {
     /**
      * @test
@@ -16,9 +16,9 @@ class SocketTest extends TestCase
         $expectedHost = '127.0.0.1';
         $expectedPort = 4222;
 
-        $socket = new Socket($expectedHost, $expectedPort);
+        $endpoint = new Endpoint($expectedHost, $expectedPort);
 
-        $this->assertSame($expectedHost, $socket->host());
-        $this->assertSame($expectedPort, $socket->port());
+        $this->assertSame($expectedHost, $endpoint->host());
+        $this->assertSame($expectedPort, $endpoint->port());
     }
 }

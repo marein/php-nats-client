@@ -8,12 +8,12 @@ use Marein\Nats\Exception\ConnectionException;
 interface ConnectionFactory
 {
     /**
-     * Establishes a connection to the given socket.
+     * Establishes a connection to the given endpoint.
      *
-     * @param Socket $socket
+     * @param Endpoint $endpoint
      *
      * @return Connection
      * @throws ConnectionException
      */
-    public function establish(Socket $socket): Connection;
+    public function establish(Endpoint $endpoint): Connection;
 }

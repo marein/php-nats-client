@@ -11,9 +11,9 @@ use Marein\Nats\Exception\TimeoutExpiredException;
 final class PacketConnections
 {
     /**
-     * @var Socket
+     * @var Endpoint
      */
-    private $socket;
+    private $endpoint;
 
     /**
      * @var Timeout
@@ -38,18 +38,18 @@ final class PacketConnections
     /**
      * PacketConnections constructor.
      *
-     * @param Socket            $socket
+     * @param Endpoint          $endpoint
      * @param Timeout           $timeout
      * @param Clock             $clock
      * @param ConnectionFactory $connectionFactory
      */
     public function __construct(
-        Socket $socket,
+        Endpoint $endpoint,
         Timeout $timeout,
         Clock $clock,
         ConnectionFactory $connectionFactory
     ) {
-        $this->socket = $socket;
+        $this->endpoint = $endpoint;
         $this->timeout = $timeout;
         $this->clock = $clock;
         $this->connectionFactory = $connectionFactory;
@@ -66,7 +66,7 @@ final class PacketConnections
     {
         if (!$this->forPublishing) {
             $this->forPublishing = new PacketConnection(
-                $this->connectionFactory->establish($this->socket),
+                $this->connectionFactory->establish($this->endpoint),
                 new CompositePacketFactory(),
                 $this->clock
             );

@@ -5,8 +5,8 @@ namespace Marein\Nats;
 
 use Marein\Nats\Clock\Clock;
 use Marein\Nats\Connection\ConnectionFactory;
+use Marein\Nats\Connection\Endpoint;
 use Marein\Nats\Connection\PacketConnections;
-use Marein\Nats\Connection\Socket;
 use Marein\Nats\Connection\Timeout;
 use Marein\Nats\Exception\ConnectionException;
 use Marein\Nats\Exception\TimeoutExpiredException;
@@ -28,20 +28,20 @@ final class Nats
     /**
      * Nats constructor.
      *
-     * @param Socket            $socket
+     * @param Endpoint          $endpoint
      * @param Timeout           $timeout
      * @param Clock             $clock
      * @param ConnectionFactory $connectionFactory
      */
     public function __construct(
-        Socket $socket,
+        Endpoint $endpoint,
         Timeout $timeout,
         Clock $clock,
         ConnectionFactory $connectionFactory
     ) {
         $this->timeout = $timeout;
         $this->packetConnections = new PacketConnections(
-            $socket,
+            $endpoint,
             $timeout,
             $clock,
             $connectionFactory

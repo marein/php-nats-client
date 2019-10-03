@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Marein\Nats\Connection;
 
-final class Socket
+final class Endpoint
 {
     /**
      * @var string
@@ -16,7 +16,7 @@ final class Socket
     private $port;
 
     /**
-     * Socket constructor.
+     * Endpoint constructor.
      *
      * @param string $host
      * @param int    $port
