@@ -7,9 +7,7 @@ use Marein\Nats\Clock\Clock;
 use Marein\Nats\Connection\ConnectionFactory;
 use Marein\Nats\Connection\Endpoint;
 use Marein\Nats\Connection\PacketConnections;
-use Marein\Nats\Connection\Timeout;
 use Marein\Nats\Exception\ConnectionException;
-use Marein\Nats\Exception\TimeoutExpiredException;
 use Marein\Nats\Protocol\Model\Subject;
 use Marein\Nats\Protocol\Packet\Client\Pub;
 
@@ -21,28 +19,28 @@ final class Nats
     private $packetConnections;
 
     /**
-     * @var Timeout
+     * @var int
      */
-    private $timeout;
+    private $timeoutInSeconds;
 
     /**
      * Nats constructor.
      *
      * @param Endpoint          $endpoint
-     * @param Timeout           $timeout
+     * @param int               $timeoutInSeconds
      * @param Clock             $clock
      * @param ConnectionFactory $connectionFactory
      */
     public function __construct(
         Endpoint $endpoint,
-        Timeout $timeout,
+        int $timeoutInSeconds,
         Clock $clock,
         ConnectionFactory $connectionFactory
     ) {
-        $this->timeout = $timeout;
+        $this->timeoutInSeconds = $timeoutInSeconds;
         $this->packetConnections = new PacketConnections(
             $endpoint,
-            $timeout,
+            $timeoutInSeconds,
             $clock,
             $connectionFactory
         );
@@ -55,7 +53,6 @@ final class Nats
      * @param string $payload
      *
      * @throws ConnectionException
-     * @throws TimeoutExpiredException
      */
     public function publish(string $subject, string $payload): void
     {
@@ -67,6 +64,6 @@ final class Nats
         );
 
         // todo: https://github.com/marein/php-nats-client/issues/3
-        $this->packetConnections->forPublishing()->receivePacket($this->timeout);
+        $this->packetConnections->forPublishing()->receivePacket($this->timeoutInSeconds);
     }
 }

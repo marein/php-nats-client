@@ -8,9 +8,8 @@ use Marein\Nats\Clock\SystemClock;
 use Marein\Nats\Connection\Connection;
 use Marein\Nats\Connection\PacketConnection;
 use Marein\Nats\Connection\PacketFactory\CompositePacketFactory;
-use Marein\Nats\Connection\Timeout;
-use Marein\Nats\Exception\TimeoutExpiredException;
 use Marein\Nats\Protocol\Packet\Client\Packet;
+use Marein\Nats\Protocol\Packet\Server\NullPacket;
 use Marein\Nats\Protocol\Packet\Server\Ok;
 use PHPUnit\Framework\TestCase;
 
@@ -59,7 +58,7 @@ class PacketConnectionTest extends TestCase
             new SystemClock()
         );
 
-        $packet = $packetConnection->receivePacket(Timeout::fromSeconds(10));
+        $packet = $packetConnection->receivePacket(10);
 
         $this->assertInstanceOf(Ok::class, $packet);
     }
@@ -81,8 +80,8 @@ class PacketConnectionTest extends TestCase
             new SystemClock()
         );
 
-        $firstPacket = $packetConnection->receivePacket(Timeout::fromSeconds(10));
-        $secondPacket = $packetConnection->receivePacket(Timeout::fromSeconds(10));
+        $firstPacket = $packetConnection->receivePacket(10);
+        $secondPacket = $packetConnection->receivePacket(10);
 
         $this->assertInstanceOf(Ok::class, $firstPacket);
         $this->assertInstanceOf(Ok::class, $secondPacket);
@@ -105,9 +104,9 @@ class PacketConnectionTest extends TestCase
             new SystemClock()
         );
 
-        $firstPacket = $packetConnection->receivePacket(Timeout::fromSeconds(10));
-        $secondPacket = $packetConnection->receivePacket(Timeout::fromSeconds(10));
-        $thirdPacket = $packetConnection->receivePacket(Timeout::fromSeconds(10));
+        $firstPacket = $packetConnection->receivePacket(10);
+        $secondPacket = $packetConnection->receivePacket(10);
+        $thirdPacket = $packetConnection->receivePacket(10);
 
         $this->assertInstanceOf(Ok::class, $firstPacket);
         $this->assertInstanceOf(Ok::class, $secondPacket);
@@ -117,17 +116,15 @@ class PacketConnectionTest extends TestCase
     /**
      * @test
      */
-    public function itThrowsTimeoutExpiredException(): void
+    public function itReturnsNullPacketIfNoPacketIsAvailable(): void
     {
-        $this->expectException(TimeoutExpiredException::class);
-
         $connection = $this->createMock(Connection::class);
 
         $clock = $this->createMock(Clock::class);
         $clock
             ->expects($this->exactly(5))
             ->method('timestamp')
-            ->willReturnOnConsecutiveCalls(1000, 1000, 1004, 1009, 1010);
+            ->willReturnOnConsecutiveCalls(1000, 1001, 1002, 1008, 1010);
 
         $packetConnection = new PacketConnection(
             $connection,
@@ -135,6 +132,8 @@ class PacketConnectionTest extends TestCase
             $clock
         );
 
-        $packetConnection->receivePacket(Timeout::fromSeconds(10));
+        $packet = $packetConnection->receivePacket(10);
+
+        $this->assertInstanceOf(NullPacket::class, $packet);
     }
 }

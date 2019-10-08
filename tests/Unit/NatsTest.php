@@ -7,7 +7,6 @@ use Marein\Nats\Clock\SystemClock;
 use Marein\Nats\Connection\Connection;
 use Marein\Nats\Connection\ConnectionFactory;
 use Marein\Nats\Connection\Endpoint;
-use Marein\Nats\Connection\Timeout;
 use Marein\Nats\Nats;
 use PHPUnit\Framework\TestCase;
 
@@ -45,7 +44,7 @@ class NatsTest extends TestCase
 
         $nats = new Nats(
             $endpoint,
-            Timeout::fromSeconds(10),
+            10,
             new SystemClock(),
             $connectionFactory
         );

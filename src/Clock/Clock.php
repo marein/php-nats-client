@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace Marein\Nats\Clock;
 
-use Marein\Nats\Exception\ConnectionLostException;
-
 interface Clock
 {
     /**
