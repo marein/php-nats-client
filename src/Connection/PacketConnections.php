@@ -6,6 +6,7 @@ namespace Marein\Nats\Connection;
 use Marein\Nats\Clock\Clock;
 use Marein\Nats\Connection\PacketFactory\CompositePacketFactory;
 use Marein\Nats\Exception\ConnectionException;
+use Marein\Nats\Protocol\Packet\Client\Connect;
 
 final class PacketConnections
 {
@@ -69,6 +70,24 @@ final class PacketConnections
                 $this->clock
             );
             // Receive the info packet.
+            // todo: https://github.com/marein/php-nats-client/issues/3
+            $this->forPublishing->receivePacket($this->timeoutInSeconds);
+            $this->forPublishing->sendPacket(
+                new Connect(
+                    true,
+                    false,
+                    false,
+                    null,
+                    null,
+                    null,
+                    'marein/php-nats-client',
+                    'php',
+                    '0.0.0',
+                    0,
+                    false
+                )
+            );
+            // Receive the ok packet.
             // todo: https://github.com/marein/php-nats-client/issues/3
             $this->forPublishing->receivePacket($this->timeoutInSeconds);
         }

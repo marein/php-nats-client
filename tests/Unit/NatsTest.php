@@ -8,6 +8,9 @@ use Marein\Nats\Connection\ConnectionFactory;
 use Marein\Nats\Connection\Endpoint;
 use Marein\Nats\Integration\SystemClock;
 use Marein\Nats\Nats;
+use Marein\Nats\Protocol\Model\Subject;
+use Marein\Nats\Protocol\Packet\Client\Connect;
+use Marein\Nats\Protocol\Packet\Client\Pub;
 use PHPUnit\Framework\TestCase;
 
 class NatsTest extends TestCase
@@ -18,22 +21,46 @@ class NatsTest extends TestCase
     public function itShouldPublishThePayloadOnTheGivenSubject(): void
     {
         $endpoint = new Endpoint('127.0.0.1', 4222);
-        $infoPacketInformation = [
+        $expectedInfoPacketInformation = [
             'server_id' => 'test',
             'max_payload' => 1233,
             'proto' => 1,
             'version' => '2.0.4'
         ];
+        $expectedConnectPacket = new Connect(
+            true,
+            false,
+            false,
+            null,
+            null,
+            null,
+            'marein/php-nats-client',
+            'php',
+            '0.0.0',
+            0,
+            false
+        );
+        $expectedPubPacket = new Pub(
+            new Subject('subject'),
+            'payload'
+        );
 
         $connection = $this->createMock(Connection::class);
         $connection
-            ->expects($this->once())
-            ->method('send')
-            ->with("PUB subject 7\r\npayload\r\n");
-        $connection
             ->expects($this->exactly(2))
+            ->method('send')
+            ->withConsecutive(
+                [$expectedConnectPacket->pack()],
+                [$expectedPubPacket->pack()]
+            );
+        $connection
+            ->expects($this->exactly(3))
             ->method('receive')
-            ->willReturnOnConsecutiveCalls('INFO ' . json_encode($infoPacketInformation) . "\r\n", "+OK\r\n");
+            ->willReturnOnConsecutiveCalls(
+                'INFO ' . json_encode($expectedInfoPacketInformation) . "\r\n",
+                "+OK\r\n",
+                "+OK\r\n"
+            );
 
         $connectionFactory = $this->createMock(ConnectionFactory::class);
         $connectionFactory
