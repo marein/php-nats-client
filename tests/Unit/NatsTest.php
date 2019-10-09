@@ -3,10 +3,10 @@ declare(strict_types=1);
 
 namespace Marein\Nats\Tests\Unit;
 
-use Marein\Nats\Clock\SystemClock;
 use Marein\Nats\Connection\Connection;
 use Marein\Nats\Connection\ConnectionFactory;
 use Marein\Nats\Connection\Endpoint;
+use Marein\Nats\Integration\SystemClock;
 use Marein\Nats\Nats;
 use PHPUnit\Framework\TestCase;
 

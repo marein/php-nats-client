@@ -4,10 +4,10 @@ declare(strict_types=1);
 namespace Marein\Nats\Tests\Unit\Connection;
 
 use Marein\Nats\Clock\Clock;
-use Marein\Nats\Clock\SystemClock;
 use Marein\Nats\Connection\Connection;
 use Marein\Nats\Connection\PacketConnection;
 use Marein\Nats\Connection\PacketFactory\CompositePacketFactory;
+use Marein\Nats\Integration\SystemClock;
 use Marein\Nats\Protocol\Packet\Client\Packet;
 use Marein\Nats\Protocol\Packet\Server\NullPacket;
 use Marein\Nats\Protocol\Packet\Server\Ok;
