@@ -12,16 +12,16 @@ class NullPacketTest extends TestCase
     /**
      * @test
      */
-    public function itIsCallingBackVisitor(): void
+    public function itIsCallingBackPacketHandler(): void
     {
         $nullPacket = new NullPacket();
 
-        $packetVisitor = $this->createMock(PacketHandler::class);
-        $packetVisitor
+        $packetHandler = $this->createMock(PacketHandler::class);
+        $packetHandler
             ->expects($this->once())
             ->method('handleNullPacket')
             ->with($nullPacket);
 
-        $nullPacket->accept($packetVisitor);
+        $nullPacket->accept($packetHandler);
     }
 }

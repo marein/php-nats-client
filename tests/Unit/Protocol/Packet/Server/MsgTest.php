@@ -60,7 +60,7 @@ class MsgTest extends TestCase
     /**
      * @test
      */
-    public function itIsCallingBackVisitor(): void
+    public function itIsCallingBackPacketHandler(): void
     {
         $msg = new Msg(
             new Subject('subject'),
@@ -69,12 +69,12 @@ class MsgTest extends TestCase
             'payload'
         );
 
-        $packetVisitor = $this->createMock(PacketHandler::class);
-        $packetVisitor
+        $packetHandler = $this->createMock(PacketHandler::class);
+        $packetHandler
             ->expects($this->once())
             ->method('handleMsg')
             ->with($msg);
 
-        $msg->accept($packetVisitor);
+        $msg->accept($packetHandler);
     }
 }

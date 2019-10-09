@@ -12,16 +12,16 @@ class PongTest extends TestCase
     /**
      * @test
      */
-    public function itIsCallingBackVisitor(): void
+    public function itIsCallingBackPacketHandler(): void
     {
         $pong = new Pong();
 
-        $packetVisitor = $this->createMock(PacketHandler::class);
-        $packetVisitor
+        $packetHandler = $this->createMock(PacketHandler::class);
+        $packetHandler
             ->expects($this->once())
             ->method('handlePong')
             ->with($pong);
 
-        $pong->accept($packetVisitor);
+        $pong->accept($packetHandler);
     }
 }

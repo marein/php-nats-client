@@ -35,16 +35,16 @@ class InfoTest extends TestCase
     /**
      * @test
      */
-    public function itIsCallingBackVisitor(): void
+    public function itIsCallingBackPacketHandler(): void
     {
         $info = new Info('serverId', '1.0.0', 1, 1024);
 
-        $packetVisitor = $this->createMock(PacketHandler::class);
-        $packetVisitor
+        $packetHandler = $this->createMock(PacketHandler::class);
+        $packetHandler
             ->expects($this->once())
             ->method('handleInfo')
             ->with($info);
 
-        $info->accept($packetVisitor);
+        $info->accept($packetHandler);
     }
 }

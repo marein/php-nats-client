@@ -12,16 +12,16 @@ class OkTest extends TestCase
     /**
      * @test
      */
-    public function itIsCallingBackVisitor(): void
+    public function itIsCallingBackPacketHandler(): void
     {
         $ok = new Ok();
 
-        $packetVisitor = $this->createMock(PacketHandler::class);
-        $packetVisitor
+        $packetHandler = $this->createMock(PacketHandler::class);
+        $packetHandler
             ->expects($this->once())
             ->method('handleOk')
             ->with($ok);
 
-        $ok->accept($packetVisitor);
+        $ok->accept($packetHandler);
     }
 }

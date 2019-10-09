@@ -12,16 +12,16 @@ class PingTest extends TestCase
     /**
      * @test
      */
-    public function itIsCallingBackVisitor(): void
+    public function itIsCallingBackPacketHandler(): void
     {
         $ping = new Ping();
 
-        $packetVisitor = $this->createMock(PacketHandler::class);
-        $packetVisitor
+        $packetHandler = $this->createMock(PacketHandler::class);
+        $packetHandler
             ->expects($this->once())
             ->method('handlePing')
             ->with($ping);
 
-        $ping->accept($packetVisitor);
+        $ping->accept($packetHandler);
     }
 }

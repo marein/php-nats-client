@@ -24,16 +24,16 @@ class ErrTest extends TestCase
     /**
      * @test
      */
-    public function itIsCallingBackVisitor(): void
+    public function itIsCallingBackPacketHandler(): void
     {
         $err = new Err('Error Message');
 
-        $packetVisitor = $this->createMock(PacketHandler::class);
-        $packetVisitor
+        $packetHandler = $this->createMock(PacketHandler::class);
+        $packetHandler
             ->expects($this->once())
             ->method('handleErr')
             ->with($err);
 
-        $err->accept($packetVisitor);
+        $err->accept($packetHandler);
     }
 }
