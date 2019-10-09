@@ -69,6 +69,7 @@ final class PacketConnections
                 $this->clock
             );
             // Receive the info packet.
+            // todo: https://github.com/marein/php-nats-client/issues/3
             $this->forPublishing->receivePacket($this->timeoutInSeconds);
         }
 
