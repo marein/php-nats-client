@@ -5,5 +5,11 @@ namespace Marein\Nats\Protocol\Packet\Server;
 
 final class Ok implements Packet
 {
-
+    /**
+     * @inheritdoc
+     */
+    public function accept(PacketHandler $packetHandler): void
+    {
+        $packetHandler->handleOk($this);
+    }
 }

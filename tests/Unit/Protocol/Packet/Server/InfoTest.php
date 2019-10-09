@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Marein\Nats\Tests\Unit\Protocol\Packet\Server;
 
 use Marein\Nats\Protocol\Packet\Server\Info;
+use Marein\Nats\Protocol\Packet\Server\PacketHandler;
 use PHPUnit\Framework\TestCase;
 
 class InfoTest extends TestCase
@@ -29,5 +30,21 @@ class InfoTest extends TestCase
         $this->assertSame($expectedVersion, $info->version());
         $this->assertSame($expectedProtocol, $info->protocol());
         $this->assertSame($expectedPayloadLimit, $info->payloadLimit());
+    }
+
+    /**
+     * @test
+     */
+    public function itIsCallingBackVisitor(): void
+    {
+        $info = new Info('serverId', '1.0.0', 1, 1024);
+
+        $packetVisitor = $this->createMock(PacketHandler::class);
+        $packetVisitor
+            ->expects($this->once())
+            ->method('handleInfo')
+            ->with($info);
+
+        $info->accept($packetVisitor);
     }
 }

@@ -83,4 +83,12 @@ final class Msg implements Packet
     {
         return $this->payload;
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function accept(PacketHandler $packetHandler): void
+    {
+        $packetHandler->handleMsg($this);
+    }
 }

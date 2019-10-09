@@ -29,4 +29,12 @@ final class Err implements Packet
     {
         return $this->message;
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function accept(PacketHandler $packetHandler): void
+    {
+        $packetHandler->handleErr($this);
+    }
 }

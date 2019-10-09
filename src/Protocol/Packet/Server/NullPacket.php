@@ -5,5 +5,11 @@ namespace Marein\Nats\Protocol\Packet\Server;
 
 final class NullPacket implements Packet
 {
-
+    /**
+     * @inheritdoc
+     */
+    public function accept(PacketHandler $packetHandler): void
+    {
+        $packetHandler->handleNullPacket($this);
+    }
 }

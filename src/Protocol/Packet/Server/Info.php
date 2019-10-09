@@ -80,4 +80,12 @@ final class Info implements Packet
     {
         return $this->payloadLimit;
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function accept(PacketHandler $packetHandler): void
+    {
+        $packetHandler->handleInfo($this);
+    }
 }

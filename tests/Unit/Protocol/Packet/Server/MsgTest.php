@@ -6,6 +6,7 @@ namespace Marein\Nats\Tests\Unit\Protocol\Packet\Server;
 use Marein\Nats\Protocol\Model\Subject;
 use Marein\Nats\Protocol\Model\SubscriptionId;
 use Marein\Nats\Protocol\Packet\Server\Msg;
+use Marein\Nats\Protocol\Packet\Server\PacketHandler;
 use PHPUnit\Framework\TestCase;
 
 class MsgTest extends TestCase
@@ -54,5 +55,26 @@ class MsgTest extends TestCase
         $this->assertSame($expectedSubscriptionId, $msg->subscriptionId());
         $this->assertSame($expectedReplyTo, $msg->replyTo());
         $this->assertSame($expectedPayload, $msg->payload());
+    }
+
+    /**
+     * @test
+     */
+    public function itIsCallingBackVisitor(): void
+    {
+        $msg = new Msg(
+            new Subject('subject'),
+            new SubscriptionId('subscriptionId'),
+            null,
+            'payload'
+        );
+
+        $packetVisitor = $this->createMock(PacketHandler::class);
+        $packetVisitor
+            ->expects($this->once())
+            ->method('handleMsg')
+            ->with($msg);
+
+        $msg->accept($packetVisitor);
     }
 }
