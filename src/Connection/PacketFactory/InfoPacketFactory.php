@@ -36,7 +36,10 @@ final class InfoPacketFactory implements PacketFactory
                 $information['server_id'],
                 $information['version'],
                 (int)$information['proto'],
-                (int)$information['max_payload']
+                (int)$information['max_payload'],
+                $information['auth_required'] ?? false,
+                $information['tls_required'] ?? false,
+                $information['tls_verify'] ?? false
             )
         );
     }

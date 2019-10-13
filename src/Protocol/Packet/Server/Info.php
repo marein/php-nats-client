@@ -26,19 +26,47 @@ final class Info implements Packet
     private $payloadLimit;
 
     /**
+     * @var bool
+     */
+    private $isAuthenticationRequired;
+
+    /**
+     * @var bool
+     */
+    private $isTlsRequired;
+
+    /**
+     * @var bool
+     */
+    private $mustProvideTlsCertificate;
+
+    /**
      * Info constructor.
      *
      * @param string $serverId
      * @param string $version
      * @param int    $protocol
      * @param int    $payloadLimit
+     * @param bool   $isAuthenticationRequired
+     * @param bool   $isTlsRequired
+     * @param bool   $mustProvideTlsCertificate
      */
-    public function __construct(string $serverId, string $version, int $protocol, int $payloadLimit)
-    {
+    public function __construct(
+        string $serverId,
+        string $version,
+        int $protocol,
+        int $payloadLimit,
+        bool $isAuthenticationRequired,
+        bool $isTlsRequired,
+        bool $mustProvideTlsCertificate
+    ) {
         $this->serverId = $serverId;
         $this->version = $version;
         $this->protocol = $protocol;
         $this->payloadLimit = $payloadLimit;
+        $this->isAuthenticationRequired = $isAuthenticationRequired;
+        $this->isTlsRequired = $isTlsRequired;
+        $this->mustProvideTlsCertificate = $mustProvideTlsCertificate;
     }
 
     /**
@@ -79,6 +107,36 @@ final class Info implements Packet
     public function payloadLimit(): int
     {
         return $this->payloadLimit;
+    }
+
+    /**
+     * Returns true if authentication is required.
+     *
+     * @return bool
+     */
+    public function isAuthenticationRequired(): bool
+    {
+        return $this->isAuthenticationRequired;
+    }
+
+    /**
+     * Returns true if tls is required.
+     *
+     * @return bool
+     */
+    public function isTlsRequired(): bool
+    {
+        return $this->isTlsRequired;
+    }
+
+    /**
+     * Returns true if the server needs a client certificate.
+     *
+     * @return bool
+     */
+    public function mustProvideTlsCertificate(): bool
+    {
+        return $this->mustProvideTlsCertificate;
     }
 
     /**

@@ -18,14 +18,25 @@ class InfoPacketFactoryTest extends TestCase
     {
         $expectedResult = new Result(
             Buffer::emptyBuffer(),
-            new Info('ABC', '2.0.4', 1, 123)
+            new Info(
+                'ABC',
+                '2.0.4',
+                1,
+                123,
+                true,
+                true,
+                true
+            )
         );
         $infoPacketInformation = json_encode(
             [
                 'server_id' => 'ABC',
                 'version' => '2.0.4',
                 'proto' => 1,
-                'max_payload' => 123
+                'max_payload' => 123,
+                'auth_required' => true,
+                'tls_required' => true,
+                'tls_verify' => true
             ]
         );
 
@@ -45,8 +56,55 @@ class InfoPacketFactoryTest extends TestCase
     {
         $expectedResult = new Result(
             Buffer::emptyBuffer()->append('+OK'),
-            new Info('ABC', '2.0.4', 1, 123)
+            new Info(
+                'ABC',
+                '2.0.4',
+                1,
+                123,
+                true,
+                true,
+                true
+            )
         );
+        $infoPacketInformation = json_encode(
+            [
+                'server_id' => 'ABC',
+                'version' => '2.0.4',
+                'proto' => 1,
+                'max_payload' => 123,
+                'auth_required' => true,
+                'tls_required' => true,
+                'tls_verify' => true
+            ]
+        );
+
+        $packetFactory = new InfoPacketFactory();
+
+        $result = $packetFactory->tryToCreateFromBuffer(
+            Buffer::emptyBuffer()->append("INFO {$infoPacketInformation}\r\n+OK")
+        );
+
+        $this->assertEquals($expectedResult, $result);
+    }
+
+    /**
+     * @test
+     */
+    public function itUsesDefaultValues(): void
+    {
+        $expectedResult = new Result(
+            Buffer::emptyBuffer(),
+            new Info(
+                'ABC',
+                '2.0.4',
+                1,
+                123,
+                false,
+                false,
+                false
+            )
+        );
+        // auth_required, tls_required, tls_verify are missing on purpose and for the test case.
         $infoPacketInformation = json_encode(
             [
                 'server_id' => 'ABC',
@@ -59,7 +117,7 @@ class InfoPacketFactoryTest extends TestCase
         $packetFactory = new InfoPacketFactory();
 
         $result = $packetFactory->tryToCreateFromBuffer(
-            Buffer::emptyBuffer()->append("INFO {$infoPacketInformation}\r\n+OK")
+            Buffer::emptyBuffer()->append("INFO {$infoPacketInformation}\r\n")
         );
 
         $this->assertEquals($expectedResult, $result);

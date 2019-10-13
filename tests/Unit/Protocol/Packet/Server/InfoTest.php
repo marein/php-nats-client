@@ -18,18 +18,27 @@ class InfoTest extends TestCase
         $expectedVersion = '2.0.4';
         $expectedProtocol = 1;
         $expectedPayloadLimit = 1048576;
+        $expectedIsAuthenticationRequired = true;
+        $expectedIsTlsRequired = true;
+        $expectedMustProvideTlsCertificate = true;
 
         $info = new Info(
             $expectedServerId,
             $expectedVersion,
             $expectedProtocol,
-            $expectedPayloadLimit
+            $expectedPayloadLimit,
+            $expectedIsAuthenticationRequired,
+            $expectedIsTlsRequired,
+            $expectedMustProvideTlsCertificate
         );
 
         $this->assertSame($expectedServerId, $info->serverId());
         $this->assertSame($expectedVersion, $info->version());
         $this->assertSame($expectedProtocol, $info->protocol());
         $this->assertSame($expectedPayloadLimit, $info->payloadLimit());
+        $this->assertSame($expectedIsAuthenticationRequired, $info->isAuthenticationRequired());
+        $this->assertSame($expectedIsTlsRequired, $info->isTlsRequired());
+        $this->assertSame($expectedMustProvideTlsCertificate, $info->mustProvideTlsCertificate());
     }
 
     /**
@@ -37,7 +46,15 @@ class InfoTest extends TestCase
      */
     public function itIsCallingBackPacketHandler(): void
     {
-        $info = new Info('serverId', '1.0.0', 1, 1024);
+        $info = new Info(
+            'serverId',
+            '1.0.0',
+            1,
+            1024,
+            true,
+            true,
+            true
+        );
 
         $packetHandler = $this->createMock(PacketHandler::class);
         $packetHandler
