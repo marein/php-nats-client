@@ -74,7 +74,7 @@ final class PacketConnections
             $this->forPublishing->receivePacket($this->timeoutInSeconds);
             $this->forPublishing->sendPacket(
                 new Connect(
-                    true,
+                    false,
                     false,
                     false,
                     null,
@@ -87,9 +87,6 @@ final class PacketConnections
                     false
                 )
             );
-            // Receive the ok packet.
-            // todo: https://github.com/marein/php-nats-client/issues/3
-            $this->forPublishing->receivePacket($this->timeoutInSeconds);
         }
 
         return $this->forPublishing;

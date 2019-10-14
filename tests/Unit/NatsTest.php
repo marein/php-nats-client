@@ -28,7 +28,7 @@ class NatsTest extends TestCase
             'version' => '2.0.4'
         ];
         $expectedConnectPacket = new Connect(
-            true,
+            false,
             false,
             false,
             null,
@@ -54,13 +54,9 @@ class NatsTest extends TestCase
                 [$expectedPubPacket->pack()]
             );
         $connection
-            ->expects($this->exactly(3))
+            ->expects($this->once())
             ->method('receive')
-            ->willReturnOnConsecutiveCalls(
-                'INFO ' . json_encode($expectedInfoPacketInformation) . "\r\n",
-                "+OK\r\n",
-                "+OK\r\n"
-            );
+            ->willReturn('INFO ' . json_encode($expectedInfoPacketInformation) . "\r\n");
 
         $connectionFactory = $this->createMock(ConnectionFactory::class);
         $connectionFactory
