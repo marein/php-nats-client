@@ -9,6 +9,7 @@ use Marein\Nats\Connection\Endpoint;
 use Marein\Nats\Connection\PacketConnections;
 use Marein\Nats\Exception\ConnectionException;
 use Marein\Nats\Protocol\Model\Subject;
+use Marein\Nats\Protocol\Packet\Client\Ping;
 use Marein\Nats\Protocol\Packet\Client\Pub;
 
 final class Nats
@@ -62,5 +63,21 @@ final class Nats
                 $payload
             )
         );
+    }
+
+    /**
+     * Flush messages to the server. It ensures that all published messages have reached the server.
+     *
+     * @throws ConnectionException
+     */
+    public function flush(): void
+    {
+        $this->packetConnections->forPublishing()->sendPacket(
+            new Ping()
+        );
+
+        // Receive the pong packet.
+        // todo: https://github.com/marein/php-nats-client/issues/3
+        $this->packetConnections->forPublishing()->receivePacket($this->timeoutInSeconds);
     }
 }

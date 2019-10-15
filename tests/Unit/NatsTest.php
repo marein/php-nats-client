@@ -3,24 +3,38 @@ declare(strict_types=1);
 
 namespace Marein\Nats\Tests\Unit;
 
-use Marein\Nats\Connection\Connection;
 use Marein\Nats\Connection\ConnectionFactory;
 use Marein\Nats\Connection\Endpoint;
 use Marein\Nats\Integration\SystemClock;
 use Marein\Nats\Nats;
 use Marein\Nats\Protocol\Model\Subject;
 use Marein\Nats\Protocol\Packet\Client\Connect;
+use Marein\Nats\Protocol\Packet\Client\Ping;
 use Marein\Nats\Protocol\Packet\Client\Pub;
+use Marein\Nats\Tests\Unit\TestDouble\QueueableTestCaseConnection;
+use Marein\Nats\Tests\Unit\TestDouble\QueueableTestCaseConnectionFactory;
 use PHPUnit\Framework\TestCase;
 
 class NatsTest extends TestCase
 {
+    private const TIMEOUT_IN_SECONDS = 10;
+
     /**
-     * @test
+     * @var QueueableTestCaseConnection
      */
-    public function itShouldPublishThePayloadOnTheGivenSubject(): void
+    private $connection;
+
+    /**
+     * @var Nats
+     */
+    private $nats;
+
+    /**
+     * Setup a working connection and a working nats instance.
+     */
+    protected function setUp(): void
     {
-        $endpoint = new Endpoint('127.0.0.1', 4222);
+        $expectedEndpoint = new Endpoint('127.0.0.1', 4222);
         $expectedInfoPacketInformation = [
             'server_id' => 'test',
             'max_payload' => 1233,
@@ -40,38 +54,57 @@ class NatsTest extends TestCase
             0,
             false
         );
+
+        $this->connection = new QueueableTestCaseConnection($this);
+        $this->nats = new Nats(
+            $expectedEndpoint,
+            self::TIMEOUT_IN_SECONDS,
+            new SystemClock(),
+            new QueueableTestCaseConnectionFactory(
+                $this,
+                $expectedEndpoint,
+                $this->connection
+            )
+        );
+
+        $this->connection->enqueueSend($expectedConnectPacket->pack());
+        $this->connection->enqueueReceive(
+            'INFO ' . json_encode($expectedInfoPacketInformation) . "\r\n",
+            self::TIMEOUT_IN_SECONDS
+        );
+    }
+
+    /**
+     * Assert that connection queues are empty.
+     */
+    public function tearDown(): void
+    {
+        $this->connection->assertEmptyQueues();
+    }
+
+    /**
+     * @test
+     */
+    public function itShouldPublishThePayloadOnTheGivenSubject(): void
+    {
         $expectedPubPacket = new Pub(
             new Subject('subject'),
             'payload'
         );
 
-        $connection = $this->createMock(Connection::class);
-        $connection
-            ->expects($this->exactly(2))
-            ->method('send')
-            ->withConsecutive(
-                [$expectedConnectPacket->pack()],
-                [$expectedPubPacket->pack()]
-            );
-        $connection
-            ->expects($this->once())
-            ->method('receive')
-            ->willReturn('INFO ' . json_encode($expectedInfoPacketInformation) . "\r\n");
+        $this->connection->enqueueSend($expectedPubPacket->pack());
 
-        $connectionFactory = $this->createMock(ConnectionFactory::class);
-        $connectionFactory
-            ->expects($this->once())
-            ->method('establish')
-            ->with($endpoint)
-            ->willReturn($connection);
+        $this->nats->publish('subject', 'payload');
+    }
 
-        $nats = new Nats(
-            $endpoint,
-            10,
-            new SystemClock(),
-            $connectionFactory
-        );
+    /**
+     * @test
+     */
+    public function itShouldFlush(): void
+    {
+        $this->connection->enqueueSend((new Ping())->pack());
+        $this->connection->enqueueReceive("PONG\r\n", 10);
 
-        $nats->publish('subject', 'payload');
+        $this->nats->flush();
     }
 }
