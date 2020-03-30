@@ -8,17 +8,17 @@ final class Timer
     /**
      * @var Clock
      */
-    private $clock;
+    private Clock $clock;
 
     /**
      * @var int
      */
-    private $seconds;
+    private int $seconds;
 
     /**
      * @var int
      */
-    private $expiresAt;
+    private int $expiresAt;
 
     /**
      * Timer constructor.

@@ -8,37 +8,37 @@ final class Info implements Packet
     /**
      * @var string
      */
-    private $serverId;
+    private string $serverId;
 
     /**
      * @var string
      */
-    private $version;
+    private string $version;
 
     /**
      * @var int
      */
-    private $protocol;
+    private int $protocol;
 
     /**
      * @var int
      */
-    private $payloadLimit;
+    private int $payloadLimit;
 
     /**
      * @var bool
      */
-    private $isAuthenticationRequired;
+    private bool $isAuthenticationRequired;
 
     /**
      * @var bool
      */
-    private $isTlsRequired;
+    private bool $isTlsRequired;
 
     /**
      * @var bool
      */
-    private $mustProvideTlsCertificate;
+    private bool $mustProvideTlsCertificate;
 
     /**
      * Info constructor.

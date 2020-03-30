@@ -14,17 +14,17 @@ final class QueueableTestCaseConnectionFactory implements ConnectionFactory
     /**
      * @var TestCase
      */
-    private $testCase;
+    private TestCase $testCase;
 
     /**
      * @var QueueableTestCaseConnection
      */
-    private $connection;
+    private QueueableTestCaseConnection $connection;
 
     /**
      * @var Endpoint
      */
-    private $endpoint;
+    private Endpoint $endpoint;
 
     /**
      * Connection constructor.

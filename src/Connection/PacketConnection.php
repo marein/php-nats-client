@@ -16,22 +16,22 @@ final class PacketConnection
     /**
      * @var Connection
      */
-    private $connection;
+    private Connection $connection;
 
     /**
      * @var PacketFactory
      */
-    private $packetFactory;
+    private PacketFactory $packetFactory;
 
     /**
      * @var Clock
      */
-    private $clock;
+    private Clock $clock;
 
     /**
      * @var Buffer
      */
-    private $buffer;
+    private Buffer $buffer;
 
     /**
      * PacketConnection constructor.

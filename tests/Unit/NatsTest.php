@@ -22,12 +22,12 @@ class NatsTest extends TestCase
     /**
      * @var QueueableTestCaseConnection
      */
-    private $connection;
+    private QueueableTestCaseConnection $connection;
 
     /**
      * @var Nats
      */
-    private $nats;
+    private Nats $nats;
 
     /**
      * Setup a working connection and a working nats instance.

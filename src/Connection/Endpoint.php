@@ -8,12 +8,12 @@ final class Endpoint
     /**
      * @var string
      */
-    private $host;
+    private string $host;
 
     /**
      * @var int
      */
-    private $port;
+    private int $port;
 
     /**
      * Endpoint constructor.

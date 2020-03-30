@@ -8,7 +8,7 @@ final class Buffer
     /**
      * @var string
      */
-    private $value;
+    private string $value;
 
     /**
      * Buffer constructor.

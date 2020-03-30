@@ -11,22 +11,22 @@ final class Msg implements Packet
     /**
      * @var Subject
      */
-    private $subject;
+    private Subject $subject;
 
     /**
      * @var SubscriptionId
      */
-    private $subscriptionId;
+    private SubscriptionId $subscriptionId;
 
     /**
      * @var Subject|null
      */
-    private $replyTo;
+    private ?Subject $replyTo;
 
     /**
      * @var string
      */
-    private $payload;
+    private string $payload;
 
     /**
      * Msg constructor.

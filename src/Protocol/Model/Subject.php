@@ -8,7 +8,7 @@ final class Subject
     /**
      * @var string
      */
-    private $name;
+    private string $name;
 
     /**
      * Subject constructor.

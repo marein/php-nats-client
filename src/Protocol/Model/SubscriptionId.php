@@ -8,7 +8,7 @@ final class SubscriptionId
     /**
      * @var string
      */
-    private $value;
+    private string $value;
 
     /**
      * SubscriptionId constructor.

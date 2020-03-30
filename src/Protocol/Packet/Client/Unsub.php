@@ -11,12 +11,12 @@ final class Unsub implements Packet
     /**
      * @var SubscriptionId
      */
-    private $subscriptionId;
+    private SubscriptionId $subscriptionId;
 
     /**
      * @var int|null
      */
-    private $maximumNumberOfMessages;
+    private ?int $maximumNumberOfMessages;
 
     /**
      * Unsub constructor.
@@ -26,6 +26,7 @@ final class Unsub implements Packet
     public function __construct(SubscriptionId $subscriptionId)
     {
         $this->subscriptionId = $subscriptionId;
+        $this->maximumNumberOfMessages = null;
     }
 
     /**

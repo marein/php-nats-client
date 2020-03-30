@@ -15,7 +15,7 @@ final class CompositePacketFactory implements PacketFactory
      *
      * @var array<string, PacketFactory>
      */
-    private $packetFactories;
+    private array $packetFactories;
 
     /**
      * CompositePacketFactory constructor.

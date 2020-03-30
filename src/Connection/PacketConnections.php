@@ -13,27 +13,27 @@ final class PacketConnections
     /**
      * @var Endpoint
      */
-    private $endpoint;
+    private Endpoint $endpoint;
 
     /**
      * @var int
      */
-    private $timeoutInSeconds;
+    private int $timeoutInSeconds;
 
     /**
      * @var Clock
      */
-    private $clock;
+    private Clock $clock;
 
     /**
      * @var ConnectionFactory
      */
-    private $connectionFactory;
+    private ConnectionFactory $connectionFactory;
 
     /**
      * @var PacketConnection|null
      */
-    private $forPublishing;
+    private ?PacketConnection $forPublishing;
 
     /**
      * PacketConnections constructor.
@@ -53,6 +53,7 @@ final class PacketConnections
         $this->timeoutInSeconds = $timeoutInSeconds;
         $this->clock = $clock;
         $this->connectionFactory = $connectionFactory;
+        $this->forPublishing = null;
     }
 
     /**

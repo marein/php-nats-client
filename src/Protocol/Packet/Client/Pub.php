@@ -10,22 +10,22 @@ final class Pub implements Packet
     /**
      * @var Subject
      */
-    private $subject;
+    private Subject $subject;
 
     /**
      * @var string
      */
-    private $payload;
+    private string $payload;
 
     /**
      * @var int
      */
-    private $payloadLength;
+    private int $payloadLength;
 
     /**
      * @var Subject|null
      */
-    private $replyTo;
+    private ?Subject $replyTo;
 
     /**
      * Pub constructor.
@@ -38,6 +38,7 @@ final class Pub implements Packet
         $this->subject = $subject;
         $this->payload = $payload;
         $this->payloadLength = strlen($payload);
+        $this->replyTo = null;
     }
 
     /**

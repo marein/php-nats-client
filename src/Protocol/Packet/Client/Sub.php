@@ -11,17 +11,17 @@ final class Sub implements Packet
     /**
      * @var Subject
      */
-    private $subject;
+    private Subject $subject;
 
     /**
      * @var SubscriptionId
      */
-    private $subscriptionId;
+    private SubscriptionId $subscriptionId;
 
     /**
      * @var string|null
      */
-    private $queueGroup;
+    private ?string $queueGroup;
 
     /**
      * Sub constructor.
@@ -33,6 +33,7 @@ final class Sub implements Packet
     {
         $this->subject = $subject;
         $this->subscriptionId = $subscriptionId;
+        $this->queueGroup = null;
     }
 
     /**

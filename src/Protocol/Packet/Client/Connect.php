@@ -8,57 +8,57 @@ final class Connect implements Packet
     /**
      * @var bool
      */
-    private $shouldBeVerbose;
+    private bool $shouldBeVerbose;
 
     /**
      * @var bool
      */
-    private $shouldBePedantic;
+    private bool $shouldBePedantic;
 
     /**
      * @var bool
      */
-    private $shouldRequireTls;
+    private bool $shouldRequireTls;
 
     /**
      * @var string|null
      */
-    private $authorizationToken;
+    private ?string $authorizationToken;
 
     /**
      * @var string|null
      */
-    private $username;
+    private ?string $username;
 
     /**
      * @var string|null
      */
-    private $password;
+    private ?string $password;
 
     /**
      * @var string
      */
-    private $clientLibraryName;
+    private string $clientLibraryName;
 
     /**
      * @var string
      */
-    private $clientLibraryProgrammingLanguage;
+    private string $clientLibraryProgrammingLanguage;
 
     /**
      * @var string
      */
-    private $clientLibraryVersion;
+    private string $clientLibraryVersion;
 
     /**
      * @var int
      */
-    private $clientProtocolVersion;
+    private int $clientProtocolVersion;
 
     /**
      * @var bool
      */
-    private $shouldEchoToOwnSubscriptions;
+    private bool $shouldEchoToOwnSubscriptions;
 
     /**
      * Connect constructor.

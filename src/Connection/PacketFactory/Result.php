@@ -11,12 +11,12 @@ final class Result
     /**
      * @var Buffer
      */
-    private $remainingBuffer;
+    private Buffer $remainingBuffer;
 
     /**
      * @var Packet|null
      */
-    private $packet;
+    private ?Packet $packet;
 
     public function __construct(Buffer $remainingBuffer, ?Packet $packet)
     {

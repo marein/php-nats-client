@@ -11,17 +11,17 @@ final class QueueableTestCaseConnection implements Connection
     /**
      * @var TestCase
      */
-    private $testCase;
+    private TestCase $testCase;
 
     /**
      * @var \SplQueue
      */
-    private $sendQueue;
+    private \SplQueue $sendQueue;
 
     /**
      * @var \SplQueue
      */
-    private $receiveQueue;
+    private \SplQueue $receiveQueue;
 
     /**
      * Connection constructor.

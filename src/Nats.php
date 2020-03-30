@@ -17,12 +17,12 @@ final class Nats
     /**
      * @var PacketConnections
      */
-    private $packetConnections;
+    private PacketConnections $packetConnections;
 
     /**
      * @var int
      */
-    private $timeoutInSeconds;
+    private int $timeoutInSeconds;
 
     /**
      * Nats constructor.

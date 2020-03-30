@@ -8,7 +8,7 @@ final class Err implements Packet
     /**
      * @var string
      */
-    private $message;
+    private string $message;
 
     /**
      * Err constructor.
