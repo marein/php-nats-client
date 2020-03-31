@@ -30,7 +30,7 @@ final class Unsub implements Packet
     }
 
     /**
-     * Add the queue group field for this packet.
+     * Add the maximum number of messages field for this packet.
      *
      * @param int $maximumNumberOfMessages
      *
